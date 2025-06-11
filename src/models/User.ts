@@ -65,15 +65,9 @@ userSchema.methods.comparePassword = async function (
 // Method to get public profile
 userSchema.methods.toPublicProfile = function (): Partial<IUser> {
   const user = this.toObject();
-  delete user.password;
-  delete user.createdAt;
-  delete user.updatedAt;
-  delete user.role;
-  delete user.email;
-  delete user.isVerified;
-  delete user.verificationToken;
-  delete user.resetToken;
-  delete user.resetTokenExpires;
+  // delete user.password;
+  // delete user.createdAt;
+  // delete user.updatedAt;
   return user;
 };
 

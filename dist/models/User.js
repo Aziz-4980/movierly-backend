@@ -93,15 +93,9 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 // Method to get public profile
 userSchema.methods.toPublicProfile = function () {
     const user = this.toObject();
-    delete user.password;
-    delete user.createdAt;
-    delete user.updatedAt;
-    delete user.role;
-    delete user.email;
-    delete user.isVerified;
-    delete user.verificationToken;
-    delete user.resetToken;
-    delete user.resetTokenExpires;
+    // delete user.password;
+    // delete user.createdAt;
+    // delete user.updatedAt;
     return user;
 };
 const User = mongoose_1.default.model('User', userSchema);

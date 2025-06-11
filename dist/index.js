@@ -11,6 +11,7 @@ const database_1 = __importDefault(require("./config/database"));
 const users_1 = __importDefault(require("./routes/public/users"));
 const users_2 = __importDefault(require("./routes/private/users"));
 const auth_1 = __importDefault(require("./routes/auth"));
+const movies_1 = __importDefault(require("./routes/movies"));
 // Import middlewares
 const logger_1 = __importDefault(require("./middleware/logger"));
 const errorHandler_1 = __importDefault(require("./middleware/errorHandler"));
@@ -32,11 +33,18 @@ app.get('/', (_req, res) => {
             'POST /api/auth/signup - Register a new user',
             'POST /api/auth/login - Login user',
         ],
-        publicRoutes: ['GET /api/users/profile/:id - Get public user profile'],
+        publicRoutes: [
+            'GET /api/users/profile/:id - Get public user profile',
+            'GET /api/movies - Get all movies',
+            'GET /api/movies/:id - Get movie by ID',
+        ],
         privateRoutes: [
             'GET /api/users/me - Get own profile (requires auth)',
             'PUT /api/users/me - Update own profile (requires auth)',
             'DELETE /api/users/me - Delete own account (requires auth)',
+            'POST /api/movies - Create a new movie (requires auth)',
+            'PUT /api/movies/:id - Update a movie (requires auth)',
+            'DELETE /api/movies/:id - Delete a movie (requires auth)',
         ],
     });
 });
@@ -44,6 +52,8 @@ app.get('/', (_req, res) => {
 app.use('/api/auth', auth_1.default);
 // Public routes
 app.use('/api/users', users_1.default);
+// Movie routes
+app.use('/api/movies', movies_1.default);
 // Private routes (require authentication)
 app.use('/api/users', requireAuth_1.default, users_2.default);
 // Error handling middleware

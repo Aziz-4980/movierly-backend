@@ -7,11 +7,11 @@ const router = Router();
 // Get user's own profile
 router.get('/me', async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const user = await User.findById(req.user?._id);
+    const user = await User.findById(req.user?._id).select('-password');
     res.json({
       status: 'success',
       data: {
-        user: user?.toPublicProfile(),
+        user,
       },
     });
   } catch (error) {

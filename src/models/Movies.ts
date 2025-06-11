@@ -1,12 +1,14 @@
-import { Schema, Types } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
+import { IUser } from '../types';
 
-interface IMovie {
-  _id: Types.ObjectId;
+export interface IMovie extends Document {
   title: string;
   description: string;
   thumbnailUrl: string;
   ratings: number;
-  createdBy: string;
+  createdBy: IUser['_id'];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const movieSchema = new Schema<IMovie>(
@@ -19,7 +21,6 @@ const movieSchema = new Schema<IMovie>(
     description: {
       type: String,
       required: [true, 'description is required'],
-      unique: true,
       trim: true,
     },
     thumbnailUrl: {
@@ -29,14 +30,21 @@ const movieSchema = new Schema<IMovie>(
     ratings: {
       type: Number,
       required: [true, 'ratings is required'],
+      min: [0, 'Rating must be at least 0'],
+      max: [5, 'Rating cannot be more than 5'],
+      default: 0,
     },
-
     createdBy: {
-      type: String,
-      default: '',
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'Creator is required'],
     },
   },
   {
     timestamps: true,
   }
 );
+
+const Movie = mongoose.model<IMovie>('Movie', movieSchema);
+
+export default Movie;

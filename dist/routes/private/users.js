@@ -10,11 +10,11 @@ const router = (0, express_1.Router)();
 router.get('/me', async (req, res) => {
     var _a;
     try {
-        const user = await User_1.default.findById((_a = req.user) === null || _a === void 0 ? void 0 : _a._id);
+        const user = await User_1.default.findById((_a = req.user) === null || _a === void 0 ? void 0 : _a._id).select('-password');
         res.json({
             status: 'success',
             data: {
-                user: user === null || user === void 0 ? void 0 : user.toPublicProfile(),
+                user,
             },
         });
     }
